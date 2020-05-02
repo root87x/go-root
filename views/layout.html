@@ -1,0 +1,14 @@
+{{ define "layout" }}
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{{ .title}}</title>
+        <link href="/static/styles/bootstrap4/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/styles/main.css" rel="stylesheet" />
+    </head>
+    <body>
+        {{ block "header" . }}{{end}}
+    </body>
+</html>
+{{ end }}

@@ -1,0 +1,33 @@
+{{ define "main" }} 
+    {{ template "layout" . }}
+
+    <div class="container">
+        
+        <header class="mt-5">
+            <h1>Congrate, installation succesful</h1>    
+        </header>
+
+        <div class="card-group mt-5">
+            <div class="card" style="width: 20em">
+                <div class="card-body">
+                    <h5 class="card-title">Связь с нами</h5>
+                    <p class="card-text">Узнайте как с нами связаться</p>
+                    <a href="/contacts" class="card-link">Узнать</a>
+                </div>
+            </div>
+            
+            <div class="card" style="width: 20em">
+                <div class="card-body">
+                    <h5 class="card-title">Почему GO ?</h5>
+                    <p class="card-text">Узнайте, почему GO это перспективный язык</p>
+                    <a href="/why-go" class="card-link">Узнать</a>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    {{ block "footer" . }} {{end}}
+
+    {{ block "js" . }} {{ end }}
+{{ end }}
