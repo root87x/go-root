@@ -3,3 +3,31 @@ html, body {
     margin:0;
     font-size: 100%;
 }
+
+.container {
+    padding-bottom:115px;
+}
+
+.display-flex {
+    display: flex;
+}
+
+.flex-direction-position-row {
+    flex-direction: row;
+}
+
+.flex-content-position-space-between {
+    justify-content: space-between;
+}
+
+#footer {
+    width: 100%;
+    color: #fff;
+    padding:20px;
+    background-color: #343a40;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

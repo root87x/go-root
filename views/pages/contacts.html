@@ -1,5 +1,8 @@
 {{ define "contacts" }}
+
     {{ template "layout" . }}
+
+    {{ block "header" . }} {{end}}
 
     <div class="container">
         <header>
@@ -7,5 +10,7 @@
         </header>
     </div>
     
+    {{ block "footer" . }}{{end}}
+
     {{ block "js" . }} {{ end }}
 {{ end }}

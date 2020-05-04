@@ -1,11 +1,12 @@
 package middlewares
 
 import (
-	"fmt"
 	"net/http"
 )
 
-// API middleware
+/**
+API middleware
+*/
 func APIMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Content-Type", "application/json")
@@ -13,19 +14,20 @@ func APIMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-// Проверка авторизации для web api
+/**
+Проверка авторизации для web api
+*/
 func WEBAuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		//authToken := "a1239876SHA-123"
-		cookie, err := r.Cookie("auth")
+		_, err := r.Cookie("auth")
+		// Если пусто на душе, то отправляем на исповедь
 		if err != nil {
 			http.Redirect(w, r, "/admin/login", 302)
-			next.ServeHTTP(w, r)
+		} else {
+			// Здесь делаем доп.проверку по авторизации
+			w.WriteHeader(http.StatusForbidden)
+			w.Write([]byte("Permission denied"))
 		}
-
-		value := cookie.Value
-		fmt.Println(value)
-
 		next.ServeHTTP(w, r)
 	})
 }

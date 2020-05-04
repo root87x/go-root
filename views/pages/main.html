@@ -1,12 +1,14 @@
 {{ define "main" }} 
     {{ template "layout" . }}
 
+    {{ block "header" . }} {{end}}
+
     <div class="container">
         
         <header class="mt-5">
             <h1>Congrate, installation succesful</h1>    
         </header>
-
+        
         <div class="card-group mt-5">
             <div class="card" style="width: 20em">
                 <div class="card-body">
@@ -20,11 +22,10 @@
                 <div class="card-body">
                     <h5 class="card-title">Почему GO ?</h5>
                     <p class="card-text">Узнайте, почему GO это перспективный язык</p>
-                    <a href="/why-go" class="card-link">Узнать</a>
+                    <a href="/page" class="card-link">Узнать</a>
                 </div>
             </div>
         </div>
-        
     </div>
 
     {{ block "footer" . }} {{end}}

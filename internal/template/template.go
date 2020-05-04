@@ -7,13 +7,8 @@ import (
 	"github.com/mattn/go-zglob"
 )
 
-func ParseGlob(path string) *template.Template {
-	matches, err := zglob.Glob(path)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	tmpl, err := template.ParseFiles(matches...)
+func Parse(path []string) *template.Template {
+	tmpl, err := template.ParseFiles(path...)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -21,11 +16,10 @@ func ParseGlob(path string) *template.Template {
 	return tmpl
 }
 
-func Parse(path []string) *template.Template {
-	tmpl, err := template.ParseFiles(path...)
-	if err != nil {
-		log.Fatalln(err)
-	}
+func ParseWithBlocks(path []string) *template.Template {
+	matches, _ := zglob.Glob("./views/blocks/*.html")
+	matches = append(matches, path...)
+	tmpl := Parse(matches)
 
 	return tmpl
 }

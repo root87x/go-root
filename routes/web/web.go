@@ -5,7 +5,7 @@ import (
 
 	"github.com/root87x/examples/middlewares"
 
-	"github.com/mattn/go-zglob"
+	"github.com/root87x/examples/internal/handler"
 
 	"github.com/root87x/examples/internal/template"
 )
@@ -19,37 +19,19 @@ func favicon(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "./static/favicon.ico")
 }
 
-func errorHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(404)
-	tmpl := template.Parse([]string{"./views/layout.html", "./views/notfound.html"})
-	tmpl.ExecuteTemplate(w, "notfound", map[string]string{
-		"title": "Page Not found",
-	})
-}
-
 func main(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
-		errorHandler(w, r)
+		handler.WEBError(w, r, 404)
 		return
 	}
-
-	path := []string{"./views/layout.html", "./views/pages/main.html"}
-	blocks, _ := zglob.Glob("./views/blocks/*.html")
-	path = append(path, blocks...)
-
-	tmpl := template.Parse(path)
-
+	tmpl := template.ParseWithBlocks([]string{"./views/layout.html", "./views/pages/main.html"})
 	tmpl.ExecuteTemplate(w, "main", map[string]string{
 		"title": "Main page",
 	})
 }
 
 func contacts(w http.ResponseWriter, r *http.Request) {
-	path := []string{"./views/layout.html", "./views/pages/contacts.html"}
-	blocks, _ := zglob.Glob("./views/blocks/*.html")
-	path = append(path, blocks...)
-
-	tmpl := template.Parse(path)
+	tmpl := template.ParseWithBlocks([]string{"./views/layout.html", "./views/pages/contacts.html"})
 	tmpl.ExecuteTemplate(w, "contacts", map[string]string{
 		"title": "Contacts",
 	})
