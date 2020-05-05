@@ -3,23 +3,15 @@ package template
 import (
 	"html/template"
 	"log"
-
-	"github.com/mattn/go-zglob"
 )
 
-func Parse(path []string) *template.Template {
+var Template *template.Template
+
+func Parse(path []string) (*template.Template, error) {
 	tmpl, err := template.ParseFiles(path...)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	return tmpl
-}
-
-func ParseWithBlocks(path []string) *template.Template {
-	matches, _ := zglob.Glob("./views/blocks/*.html")
-	matches = append(matches, path...)
-	tmpl := Parse(matches)
-
-	return tmpl
+	return tmpl, err
 }

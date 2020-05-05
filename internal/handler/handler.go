@@ -1,15 +1,40 @@
 package handler
 
 import (
+	"html/template"
+	"log"
 	"net/http"
 
-	"github.com/root87x/examples/internal/template"
+	tpl "github.com/root87x/examples/internal/template"
 )
 
-func WEBError(w http.ResponseWriter, r *http.Request, code int) {
-	w.WriteHeader(code)
-	tmpl := template.ParseWithBlocks([]string{"./views/layout.html", "./views/pages/notfound.html"})
-	tmpl.ExecuteTemplate(w, "notfound", map[string]string{
-		"title": "Page Not found",
-	})
+type Handler struct {
+	w http.ResponseWriter
+	r *http.Request
+}
+
+func (h *Handler) Template(pathTpl []string) *template.Template {
+	templ, err := tpl.Parse(pathTpl)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	return templ
+}
+
+func (h *Handler) Message(msg string) {
+	h.w.Write([]byte(msg))
+}
+
+func (h *Handler) Status(code int) *Handler {
+	h.w.WriteHeader(code)
+
+	return h
+}
+
+func NewHandler(w http.ResponseWriter, r *http.Request) *Handler {
+	return &Handler{
+		w: w,
+		r: r,
+	}
 }
