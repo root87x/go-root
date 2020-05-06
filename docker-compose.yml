@@ -1,12 +1,17 @@
 version: "3.1"
 services:
   app:
-    build: ./
+    container_name: go-root
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - ${DOCKER_APP_PORT}
+    restart: always
     networks:
-      - nat
+      - app-network
 
 networks:
-  nat:
-    driver: bridge
+  app-network:
+    external: 
+      name: nat
