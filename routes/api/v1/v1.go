@@ -2,10 +2,10 @@
 package v1
 
 import (
-	"encoding/json"
 	"net/http"
 
-	"github.com/root87x/examples/middlewares"
+	v1 "github.com/root87x/examples/app/controllers/api/v1"
+	"github.com/root87x/examples/app/middlewares"
 )
 
 type apiV1 struct {
@@ -13,22 +13,12 @@ type apiV1 struct {
 	Routes  map[string]interface{}
 }
 
-func mainPage(w http.ResponseWriter, r *http.Request) {
-	dataMap := map[string]interface{}{
-		"msg": "Hello, World",
-	}
-
-	data, _ := json.Marshal(dataMap)
-
-	w.Write(data)
-}
-
 // Конструктор
 func NewAPIV1(handler *http.ServeMux) *apiV1 {
 	return &apiV1{
 		Handler: handler,
 		Routes: map[string]interface{}{
-			"/api/v1": middlewares.APIMiddleware(http.HandlerFunc(mainPage)),
+			"/api/v1": middlewares.APIMiddleware(http.HandlerFunc(v1.Test)),
 		},
 	}
 }

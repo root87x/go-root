@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	"github.com/root87x/examples/router"
+	"github.com/root87x/examples/internal/router"
 	apiv1 "github.com/root87x/examples/routes/api/v1"
 	web "github.com/root87x/examples/routes/web"
 	"github.com/root87x/examples/server"

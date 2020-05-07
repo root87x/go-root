@@ -2,10 +2,9 @@ package handler
 
 import (
 	"html/template"
-	"log"
 	"net/http"
 
-	tpl "github.com/root87x/examples/internal/template"
+	"github.com/root87x/examples/internal/view"
 )
 
 type Handler struct {
@@ -13,13 +12,9 @@ type Handler struct {
 	r *http.Request
 }
 
-func (h *Handler) Template(pathTpl []string) *template.Template {
-	templ, err := tpl.Parse(pathTpl)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	return templ
+func (h *Handler) Template() *template.Template {
+	tmpl := view.NewView().ParseFiles()
+	return tmpl
 }
 
 func (h *Handler) Message(msg string) {
