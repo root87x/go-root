@@ -20,7 +20,7 @@ func favicon(w http.ResponseWriter, r *http.Request) {
 
 // Конструктор
 func NewWeb(handler *http.ServeMux) *web {
-	view := view.NewView()
+	view := view.NewView("./views")
 	site := &site.SiteController{View: view}
 	admin := &admin.AdminController{View: view}
 
@@ -29,10 +29,11 @@ func NewWeb(handler *http.ServeMux) *web {
 		Handler: handler,
 		Routes: map[string]interface{}{
 			"/":            http.HandlerFunc(site.Main),
+			"/auth":        middlewares.WEBGuestMiddleware(http.HandlerFunc(site.Auth), "/"),
 			"/favicon.ico": http.HandlerFunc(favicon),
 			"/contacts":    http.HandlerFunc(site.Contacts),
-			"/admin":       middlewares.WEBAuthMiddleware(http.HandlerFunc(admin.Dashboard)),
-			"/admin/login": middlewares.WEBGuestMiddleware(http.HandlerFunc(admin.Auth)),
+			"/admin":       middlewares.WEBAuthMiddleware(http.HandlerFunc(admin.Dashboard), "/admin/auth"),
+			"/admin/auth":  middlewares.WEBGuestMiddleware(http.HandlerFunc(admin.Auth), "/admin"),
 		},
 	}
 }

@@ -1,0 +1,11 @@
+{{ define "login_admin" }}
+
+    {{ template "layout" . }}
+
+    <div class="container">
+        {{ block "authForm" . }} {{ end }}
+    </div>
+
+    {{ block "footer" . }} {{ end }}
+
+{{ end }}

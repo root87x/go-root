@@ -8,12 +8,13 @@ import (
 )
 
 type View struct {
-	pathes []string
+	viewCollection []string
+	viewPath       string
 }
 
 // Парсинг шаблонов
 func (v *View) ParseFiles() *template.Template {
-	tmpl, err := template.ParseFiles(v.pathes...)
+	tmpl, err := template.ParseFiles(v.viewCollection...)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -21,9 +22,10 @@ func (v *View) ParseFiles() *template.Template {
 }
 
 // Конструктор
-func NewView() *View {
-	paths, _ := zglob.Glob("./views/**/*.html")
+func NewView(viewPath string) *View {
+	paths, _ := zglob.Glob(viewPath + "/**/*.html")
 	return &View{
-		pathes: paths,
+		viewCollection: paths,
+		viewPath:       viewPath,
 	}
 }

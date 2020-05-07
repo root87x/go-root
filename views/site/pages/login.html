@@ -1,0 +1,20 @@
+{{ define "login" }}
+
+    {{ template "layout" . }}
+
+    {{ block "header" . }} {{ end }}
+
+    <div class="container">
+        <div class="auth mt-5">
+            <header>
+                <h1>Авторизация</h1>
+            </header>
+            {{ block "authForm" . }} {{ end }}
+        </div>
+    </div>
+
+    {{ block "footer" . }} {{ end }}
+
+    {{ block "js" . }} {{ end }}
+
+{{ end }}

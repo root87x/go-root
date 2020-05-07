@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"net/http"
+	"time"
 )
 
 /**
@@ -17,18 +18,19 @@ func APIMiddleware(next http.Handler) http.Handler {
 /**
 Проверка авторизации для web api
 */
-func WEBAuthMiddleware(next http.Handler) http.Handler {
+func WEBAuthMiddleware(next http.Handler, redirectTo string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var auth bool = false
 		_, err := r.Cookie("auth")
-		// Если пусто на душе, то отправляем на исповедь
 		if err != nil {
-			http.Redirect(w, r, "/admin/login", 302)
-		} else {
-			// Здесь делаем доп.проверку по авторизации
-			w.WriteHeader(http.StatusForbidden)
-			w.Write([]byte("Permission denied"))
+			http.Redirect(w, r, redirectTo, http.StatusMovedPermanently)
 		}
-		next.ServeHTTP(w, r)
+		if !auth {
+			http.SetCookie(w, &http.Cookie{Name: "auth", Value: "", Path: "/", Expires: time.Unix(0, 0), HttpOnly: true})
+			http.Redirect(w, r, redirectTo, http.StatusMovedPermanently)
+		} else {
+			next.ServeHTTP(w, r)
+		}
 	})
 }
 
@@ -36,12 +38,12 @@ func WEBAuthMiddleware(next http.Handler) http.Handler {
 Авторизация для web api
 Только для гостей
 */
-func WEBGuestMiddleware(next http.Handler) http.Handler {
+func WEBGuestMiddleware(next http.Handler, redirectTo string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		cook, _ := r.Cookie("auth")
-		if cook != nil {
-			if r.URL.Path != "/admin/login" {
-				http.Redirect(w, r, r.Referer(), 302)
+		_, err := r.Cookie("auth")
+		if err == nil {
+			if r.URL.Path != redirectTo {
+				http.Redirect(w, r, redirectTo, 302)
 				next.ServeHTTP(w, r)
 			}
 		}

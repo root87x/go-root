@@ -1,20 +1,12 @@
 package handler
 
 import (
-	"html/template"
 	"net/http"
-
-	"github.com/root87x/examples/internal/view"
 )
 
 type Handler struct {
 	w http.ResponseWriter
 	r *http.Request
-}
-
-func (h *Handler) Template() *template.Template {
-	tmpl := view.NewView().ParseFiles()
-	return tmpl
 }
 
 func (h *Handler) Message(msg string) {
